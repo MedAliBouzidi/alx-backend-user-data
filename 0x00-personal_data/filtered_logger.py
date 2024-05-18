@@ -80,7 +80,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return conn
 
 
-if __name__ == "__main__":
+def main():
     """main entry point"""
     db = get_db()
     logger = get_logger()
@@ -92,3 +92,7 @@ if __name__ == "__main__":
         logger.info(message.strip())
     cursor.close()
     db.close()
+
+
+if __name__ == "__main__":
+    main()
