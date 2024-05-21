@@ -26,10 +26,10 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(
         self, base64_authorization_header: str
     ) -> str:
-        """Decode the base64 authorization header """
+        """Decode the base64 authorization header"""
         if (
             base64_authorization_header is None
-            or not isinstance(base64_authorization_header, str)
+            or isinstance(base64_authorization_header, str) is False
         ):
             return None
         try:
@@ -45,21 +45,23 @@ class BasicAuth(Auth):
     ) -> (str, str):
         """Extract the user credentials"""
         if (
-                decoded_base64_authorization_header is None
-                or not isinstance(decoded_base64_authorization_header, str)
-                or ":" not in decoded_base64_authorization_header
+            decoded_base64_authorization_header is None
+            or not isinstance(decoded_base64_authorization_header, str)
+            or ":" not in decoded_base64_authorization_header
         ):
             return None, None
-        splitted = decoded_base64_authorization_header.split(':')
+        splitted = decoded_base64_authorization_header.split(":")
         return (splitted[0], splitted[1])
 
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
-    ) -> TypeVar('User'):
+    ) -> TypeVar("User"):
         """User object from credentials"""
         if (
-            user_email is None or not isinstance(user_email, str)
-            or user_pwd is None or not isinstance(user_pwd, str)
+            user_email is None
+            or not isinstance(user_email, str)
+            or user_pwd is None
+            or not isinstance(user_pwd, str)
         ):
             return None
         try:
