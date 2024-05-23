@@ -13,3 +13,4 @@
 */.mypy_cache/
 */.dmypy.json
 */dmypy.json
+.db_User.json

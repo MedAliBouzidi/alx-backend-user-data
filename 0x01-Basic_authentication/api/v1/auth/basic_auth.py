@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ Basic Auth module """
 import base64
-from os import walk
 from typing import TypeVar
 
 from api.v1.auth.auth import Auth
@@ -66,7 +65,7 @@ class BasicAuth(Auth):
             return None
         try:
             users = User.search({"email": user_email})
-            if not users or users == []:
+            if not users or not users:
                 return None
             for user in users:
                 if user.is_valid_password(user_pwd):
@@ -74,3 +73,13 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar("User"):
+        """ Get the current user """
+        auth_header = self.authorization_header(request)
+        base64_header = self.extract_base64_authorization_header(auth_header)
+        decoded_header = self.decode_base64_authorization_header(base64_header)
+        user_credentials = self.extract_user_credentials(decoded_header)
+        return self.user_object_from_credentials(
+            user_credentials[0], user_credentials[1]
+        )
