@@ -50,7 +50,10 @@ class BasicAuth(Auth):
         ):
             return None, None
         splitted = decoded_base64_authorization_header.split(":")
-        return (splitted[0], splitted[1])
+        return (
+            splitted[0],
+            ":".join(splitted[1:]),
+        )
 
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
