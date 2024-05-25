@@ -49,3 +49,14 @@ class Auth:
           - the value of the request header Authorization
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        session_cookie method
+        Returns:
+          - None if request does not contain the cookie key '_my_session_id'
+          - the value of the cookie key '_my_session_id'
+        """
+        if request is None:
+            return None
+        return request.cookies.get("_my_session_id")
