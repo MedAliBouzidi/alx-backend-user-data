@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ Auth module for the API """
-import re
+from os import getenv
 from typing import List, TypeVar
 
 from flask import request
@@ -59,4 +59,5 @@ class Auth:
         """
         if request is None:
             return None
-        return request.cookies.get("_my_session_id")
+        session_name = getenv("SESSION_NAME")
+        return request.cookies.get(session_name)
