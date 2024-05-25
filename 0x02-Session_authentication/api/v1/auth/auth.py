@@ -18,16 +18,24 @@ class Auth:
         """
         if path is None or excluded_paths is None or excluded_paths == []:
             return True
+        # for path_excluded in excluded_paths:
+        #     if (
+        #         path_excluded.startswith(path)
+        #         or path.startswith(path_excluded)
+        #         or (
+        #             path_excluded[-1] == "*"
+        #             and path.startswith(path_excluded[:-1])
+        #         )
+        #     ):
+        #         return False
         for path_excluded in excluded_paths:
-            if (
-                path_excluded.startswith(path)
-                or path.startswith(path_excluded)
-                or (
-                    path_excluded[-1] == "*"
-                    and path.startswith(path_excluded[:-1])
-                )
-            ):
+            if path_excluded.startswith(path):
                 return False
+            if path.startswith(path_excluded):
+                return False
+            if path_excluded[-1] == "*":
+                if path.startswith(path_excluded[:-1]):
+                    return False
 
         return True
 
