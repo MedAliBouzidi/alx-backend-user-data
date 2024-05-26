@@ -25,6 +25,10 @@ if auth_type == "session_auth":
     from api.v1.auth.session_auth import SessionAuth
 
     auth = SessionAuth()
+if auth_type == "session_exp_auth":
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+
+    auth = SessionExpAuth()
 else:
     from api.v1.auth.auth import Auth
 
