@@ -1,8 +1,6 @@
 #!/usr/bin/enb python3
 """DB module
 """
-from typing import TypeVar
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -29,7 +27,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar("User"):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """
         Create a User object and save it to the database
         Args:
