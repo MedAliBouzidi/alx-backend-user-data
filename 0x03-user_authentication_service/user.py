@@ -1,4 +1,4 @@
-#!/usr/bin/nev python3
+#!/usr/bin/env python3
 """ User class module """
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
