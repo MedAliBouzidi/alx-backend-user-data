@@ -2,9 +2,11 @@
 """DB module
 """
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError, NoResultFound
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import query, sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.sql.operators import endswith_op
 
 from user import Base, User
 
@@ -40,3 +42,41 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Return a user who has an attribute matching the attributes passed
+        as arguments
+        Args:
+            attributes (dict): a dictionary of attributes to match the user
+        Return:
+            matching user or raise error
+        """
+        all_users = self._session.query(User)
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+            for user in all_users:
+                if getattr(user, key) == value:
+                    return user
+        raise NoResultFound
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Update a user in the database
+        Args:
+            user_id (int): user id
+            attributes (dict): a dictionary of attributes to update
+        Return:
+            None
+        """
+        try:
+            user = self.find_user_by(id=user_id)
+        except NoResultFound:
+            raise ValueError()
+
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError()
+            setattr(user, key, value)
+        self._session.commit()
